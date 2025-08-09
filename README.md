@@ -25,11 +25,6 @@ This folder contains the Python scripts used to collect, process, and analyze th
 
 ## **[Figures](./Figures)**
 This folder contains key visual outputs from the dissertation analysis.  
-Example figures include:
-- **Sector Funding Distributions**  
-  ![Sector Funding Distribution](./Figures/sector_funding_distribution.png)
-- **Gamma GLM Coefficient Plot**  
-  ![Gamma GLM Coefficients](./Figures/glm_coefficients.png)
 
 ---
 
