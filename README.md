@@ -1,9 +1,9 @@
-# Capital Allocation in UK Social Impact Bonds:
-Sectoral Patterns and Investor Influence – Code & Data
+# UK Social Impact Bond Funding Patterns – Code & Data
 
-This repository contains the code and data used to analyze funding patterns across UK Social Impact Bonds (SIBs) as part of my dissertation research.
+This repository contains the code, data, and outputs from my Master’s dissertation, which examines capital allocation patterns across UK Social Impact Bonds (SIBs).  
+The analysis uses a custom-compiled dataset and a Gamma Generalized Linear Model (GLM) to explore how funding varies across policy sectors, and what this reveals about investor priorities.
 
-**The project is organized into two main folders:**
+---
 
 ## **[Data Sources](./Data%20Sources)**
 This folder contains:
@@ -11,9 +11,29 @@ This folder contains:
 - Supplementary datasets collected from external sources.
 - `update_log.csv`, which documents all changes made when integrating the INDIGO Impact Bond Database output with supplementary datasets.
 
+---
+
 ## **[Code Scripts](./Code%20Scripts)**
-This folder contains the Python scripts used to collect, process, and analyze the data.  
+This folder contains the Python scripts used to collect, process, and analyze the data.
+
 **Run the scripts in the following order:**
 1. [`api_code.py`](./Code%20Scripts/api_code.py) – Extracts SIB project data from the INDIGO Impact Bond Database.
 2. [`add_supplementary.py`](./Code%20Scripts/add_supplementary.py) – Integrates additional data from external sources.
 3. [`model.py`](./Code%20Scripts/model.py) – Runs the statistical models and generates outputs for analysis.
+
+---
+
+## **[Figures](./Figures)**
+This folder contains key visual outputs from the dissertation analysis.  
+Example figures include:
+- **Sector Funding Distributions**  
+  ![Sector Funding Distribution](./Figures/sector_funding_distribution.png)
+- **Gamma GLM Coefficient Plot**  
+  ![Gamma GLM Coefficients](./Figures/glm_coefficients.png)
+
+---
+
+## **Installation**
+To run the analysis locally, clone this repository and install the required Python packages:
+```bash
+pip install -r requirements.txt
