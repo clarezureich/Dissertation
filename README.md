@@ -28,6 +28,12 @@ This folder contains key visual outputs from the dissertation analysis.
 
 ---
 
+## **[Final Dissertation](./Final%20Dissertation)**
+This folder contains the final dissertation paper. 
+
+---
+
+
 ## **Installation**
 To run the analysis locally, clone this repository and install the required Python packages:
 ```bash
