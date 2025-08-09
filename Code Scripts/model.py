@@ -7,19 +7,36 @@ Date: 2025-07-23
 """
 
 # ===============================
-# 1. Libraries
+# 1. Libraries and File Paths 
 # ===============================
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 import seaborn as sns
 import statsmodels.api as sm
+import os
+import scipy.stats as stats
+from matplotlib.gridspec import GridSpec
 from statsmodels.formula.api import glm
 from statsmodels.genmod.families import Gamma
 from statsmodels.stats.diagnostic import het_breuschpagan
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from scipy.stats import chi2
 
+
+# Times New Roman everywhere
+mpl.rcParams['font.family'] = 'Times New Roman'
+mpl.rcParams['font.size']   = 14        # default text / tick size
+
+# Thicker axes & grid lines
+mpl.rcParams['axes.linewidth'] = 1.0
+mpl.rcParams['grid.color']     = '#d0d0d0'
+mpl.rcParams['grid.linestyle'] = '--'
+mpl.rcParams['grid.alpha']     = 0.7
+
+# Consistent colour palette (muted blues / greys)
+sns.set_palette(['#1f77b4', '#6baed6', '#08306b'])
 sns.set_style("whitegrid")
 
 # ===============================
@@ -29,6 +46,34 @@ df = pd.read_csv("uk_sib_projects_full_final.csv")
 
 # Drop rows with missing key fields (Capital Raised, Service Users, Num Investors)
 model_data = df.dropna(subset=['Capital Raised', 'Service Users', 'Num Investors']).copy()
+
+
+##Identifying dropped projects 
+
+key_cols = ['Capital Raised', 'Service Users', 'Num Investors']
+mask_dropped = df[key_cols].isna().any(axis=1)
+
+# 3. Slice them into a separate DataFrame
+dropped = df[mask_dropped].copy()          # ≈ 24 rows
+retained = df[~mask_dropped].copy()        # your modelling sample, n = 76
+
+# 4. Quick sanity-checks
+print(len(dropped))                        # should show 24
+print(dropped['Policy Sector'].value_counts())    # dropped-by-sector frequency
+
+sector_counts = dropped['Policy Sector'].value_counts()
+
+plt.figure(figsize=(8, 5))
+sector_counts.sort_values().plot(kind='barh')
+plt.title("Dropped Projects by Policy Sector")
+plt.xlabel("Number of Projects")
+plt.ylabel("Policy Sector")
+plt.tight_layout()
+plt.show()
+
+#Print dropped projects to csv 
+dropped.to_csv("appendixA_dropped_projects.csv", index=False)
+
 
 print("Initial dataset size:", df.shape[0], "projects")
 print("Final dataset size after removing missing values:", model_data.shape[0], "projects")
@@ -68,6 +113,13 @@ print("Predictors for modeling:", predictors)
 print("\n--- Descriptive Statistics for Numeric Variables ---")
 print(model_data[['Capital Raised', 'Service Users', 'Num Investors']].describe().round(2))
 
+# Skewness calculations
+print("\n--- Skewness ---")
+for col in ['Capital Raised', 'Service Users', 'Num Investors']:
+    skew_val = stats.skew(model_data[col], bias=False)
+    kurt_val = stats.kurtosis(model_data[col], bias=False)
+    print(f"{col}: Skewness = {skew_val:.3f}, Kurtosis = {kurt_val:.3f}")
+    
 # ===============================
 # Distribution by Policy Sector
 # ===============================
@@ -81,28 +133,48 @@ print("\nPolicy Sector (%):")
 print(sector_percent)
 
 # ===============================
-# Histograms
+# Original Distribution and Log-trasnformed Histograms
 # ===============================
-plt.figure(figsize=(15, 4))
 
-# Capital Raised
-plt.subplot(1, 3, 1)
-sns.histplot(model_data['Capital Raised'], bins=30, kde=True)
-plt.title('Distribution of Capital Raised')
-plt.xlabel('Capital Raised (£)')
+# Set up figure structure
+fig, axs = plt.subplots(2, 2, figsize=(12, 8))
 
-# Service Users
-plt.subplot(1, 3, 2)
-sns.histplot(model_data['Service Users'], bins=30, kde=True, color='orange')
-plt.title('Distribution of Service Users')
+# --- First Histogram: Original distributions ---
+fig, axs = plt.subplots(3, 1, figsize=(8, 12))
 
-# Num Investors
-plt.subplot(1, 3, 3)
-sns.histplot(model_data['Num Investors'], bins=15, kde=False, color='green')
-plt.title('Distribution of Number of Investors')
+sns.histplot(model_data['Capital Raised'], bins=30, kde=True, color='blue', ax=axs[0])
+axs[0].set_title('Distribution of Capital Raised')
+axs[0].set_xlabel('Capital Raised (£)')
 
-plt.tight_layout()
+sns.histplot(model_data['Service Users'], bins=30, kde=True, color='orange', ax=axs[1])
+axs[1].set_title('Distribution of Service Users')
+axs[1].set_xlabel('Service Users')
+
+sns.histplot(model_data['Num Investors'], bins=15, kde=True, color='green', ax=axs[2])
+axs[2].set_title('Distribution of Number of Investors')
+axs[2].set_xlabel('Num Investors')
+
+fig.tight_layout()
 plt.show()
+
+# --- Second figure: Log-transformed distributions (stacked) ---
+fig2, axs2 = plt.subplots(3, 1, figsize=(8, 12))
+
+sns.histplot(np.log(model_data['Capital Raised']), bins=30, kde=True, color='blue', ax=axs2[0])
+axs2[0].set_title("Log-Transformed Capital Raised")
+axs2[0].set_xlabel("Log(Capital Raised)")
+
+sns.histplot(np.log(model_data['Service Users']), bins=30, kde=True, color='orange', ax=axs2[1])
+axs2[1].set_title("Log-Transformed Service Users")
+axs2[1].set_xlabel("Log(Service Users)")
+
+sns.histplot(np.log(model_data['Num Investors']), bins=30, kde=True, color='green', ax=axs2[2])
+axs2[2].set_title("Log-Transformed Number of Investors")
+axs2[2].set_xlabel("Log(Num Investors)")
+
+fig2.tight_layout()
+plt.show()
+
 
 # ===============================
 # Boxplots for Outlier Detection
@@ -119,45 +191,28 @@ sector_capital = model_data.groupby('Policy Sector')['Capital Raised'].agg(['mea
 print("\n--- Capital Raised by Policy Sector ---")
 print(sector_capital)
 
-
-
-plt.figure(figsize=(12, 5))
-
-# Capital Raised Original
-plt.subplot(1, 2, 1)
-sns.histplot(y_clean, bins=30, kde=True)
-plt.title("Distribution of Capital Raised")
-plt.xlabel("Capital Raised (£)")
-
-# Capital Raised Log
-plt.subplot(1, 2, 2)
-sns.histplot(np.log(y_clean), bins=30, kde=True, color='orange')
-plt.title("Log-Transformed Capital Raised")
-plt.xlabel("Log(1 + Capital Raised)")
-
+# Plot of Project Count by Sector
+plt.figure(figsize=(10, 6))
+sns.barplot(x=sector_counts.values, y=sector_counts.index, palette="viridis")
+plt.xlabel("Number of Projects", fontsize=14)
+plt.ylabel("Policy Sector", fontsize=14)
+plt.title("Number of SIB Projects per Policy Sector", fontsize=16)
+plt.xticks(fontsize=16)
+plt.yticks(fontsize=16)
 plt.tight_layout()
 plt.show()
-
-# Service Users before/after log
-plt.figure(figsize=(12, 5))
-plt.subplot(1, 2, 1)
-sns.histplot(model_data['Service Users'], bins=30, kde=True)
-plt.title("Original Service Users")
-plt.subplot(1, 2, 2)
-sns.histplot(np.log(model_data['Service Users']), bins=30, kde=True, color='orange')
-plt.title("Log-Transformed Service Users")
-plt.tight_layout()
-plt.show()
-
 # ===============================
 # 4. Model Estimation
 # ===============================
 # Gamma GLM with log link
 glm_model = sm.GLM(y_clean, X_const, family=Gamma(link=sm.genmod.families.links.Log())).fit()
 print(glm_model.summary())
+glm_model.null_deviance
+
 # OLS on log-transformed Y
 y_log = np.log(y_clean)
 ols_model = sm.OLS(y_log, X_const).fit()
+print(ols_model.summary())
 
 # Breusch-Pagan test for heteroskedasticity
 bp_test = het_breuschpagan(ols_model.resid, ols_model.model.exog)
@@ -255,40 +310,110 @@ plt.figure(figsize=(14, 6))
 plt.subplot(1, 2, 1)
 sns.scatterplot(x=y_clean, y=y_pred_glm, alpha=0.7)
 plt.plot([y_clean.min(), y_clean.max()], [y_clean.min(), y_clean.max()], 'k--')
-plt.title('Gamma GLM: Actual vs Predicted')
-plt.xlabel('Actual Capital Raised'); plt.ylabel('Predicted')
+plt.title('Gamma GLM: Actual vs Predicted', fontsize=16)
+plt.xlabel('Actual capital raised', fontsize=16)
+plt.ylabel('Predicted', fontsize=16)
 
 plt.subplot(1, 2, 2)
 sns.scatterplot(x=y_clean, y=y_pred_ols, alpha=0.7, color='orange')
 plt.plot([y_clean.min(), y_clean.max()], [y_clean.min(), y_clean.max()], 'k--')
-plt.title('OLS: Actual vs Predicted')
-plt.xlabel('Actual Capital Raised'); plt.ylabel('Predicted')
+plt.title('OLS: Actual vs Predicted', fontsize=16)
+plt.xlabel('Actual capital raised', fontsize=16)
+plt.ylabel('Predicted', fontsize=16)
 
 plt.tight_layout()
+plt.savefig("diag_actual_vs_predicted.png", dpi=300)
 plt.show()
 
 # Residual plots
 plt.figure(figsize=(14, 6))
 plt.subplot(1, 2, 1)
 sns.scatterplot(x=y_pred_glm, y=glm_model.resid_deviance)
-plt.axhline(0, color='red', linestyle='--')
-plt.title('Gamma GLM: Deviance Residuals')
+plt.axhline(0, color='red', ls='--')
+plt.title('Gamma GLM: Deviance Residuals', fontsize=16)
+plt.xlabel('Fitted', fontsize=16)
+plt.ylabel('Deviance residual', fontsize=16)
 
 plt.subplot(1, 2, 2)
 sns.scatterplot(x=ols_model.fittedvalues, y=ols_model.resid, color='orange')
-plt.axhline(0, color='red', linestyle='--')
-plt.title('OLS: Residuals')
+plt.axhline(0, color='red', ls='--')
+plt.title('OLS: Residuals', fontsize=16)
+plt.xlabel('Fitted', fontsize=16)
+plt.ylabel('OLS residual', fontsize=16)
 plt.tight_layout()
 plt.show()
+
+# Q–Q plot of deviance residuals
+plt.figure(figsize=(6, 5))
+stats.probplot(glm_model.resid_deviance, dist="norm", plot=plt)
+plt.title("Gamma GLM: Q–Q plot of deviance residuals", fontsize=16, fontweight='bold')
+plt.xlabel("Theoretical quantiles", fontsize=16)
+plt.ylabel("Ordered values", fontsize=16)
+plt.xticks(fontsize=14); plt.yticks(fontsize=14)
+plt.tight_layout()
+plt.savefig("diag_qq_deviance.png", dpi=300)
+plt.show()
+
+# Cook’s D influence
+influence  = glm_model.get_influence()
+cooks_d    = influence.cooks_distance[0]
+threshold  = 4 / len(cooks_d)
+
+plt.figure(figsize=(7, 5))
+markerline, stemlines, baseline = plt.stem(cooks_d, basefmt=" ")
+plt.setp(markerline, marker=',', color='#1f77b4')
+plt.setp(stemlines, linewidth=1, color='#1f77b4')
+plt.axhline(threshold, color='#737373', ls='--', label=f"4/n = {threshold:.3f}")
+plt.title("Gamma GLM: Cook’s D by observation", fontsize=16, fontweight='bold')
+plt.xlabel("Project index", fontsize=16); plt.ylabel("Cook’s D", fontsize=16)
+plt.xticks(fontsize=14); plt.yticks(fontsize=14)
+plt.legend(frameon=False, fontsize=12)
+plt.tight_layout()
+plt.savefig("diag_cooks_distance.png", dpi=300)
+plt.show()
+
+# Over-dispersion ratio bar
+pearson_chi2 = glm_model.pearson_chi2
+df_resid     = glm_model.df_resid
+disp_ratio   = pearson_chi2 / df_resid
+print(f"Over-dispersion ratio (Pearson χ² / df): {disp_ratio:.3f}")
+
+plt.figure(figsize=(4, 3.5))
+plt.bar(['Ratio'], [disp_ratio], color='#6baed6')
+plt.axhline(1, color='#737373', ls='--')
+plt.title("Over-dispersion ratio", fontsize=16, fontweight='bold')
+plt.ylabel("Value", fontsize=16)
+plt.xticks(fontsize=14); plt.yticks(fontsize=14)
+plt.tight_layout()
+plt.savefig("diag_overdispersion.png", dpi=300)
+plt.show()
+
+#Pearson residuals vs fitted
+plt.figure(figsize=(6, 5))
+sns.scatterplot(x=glm_model.fittedvalues, y=influence.resid_studentized)
+plt.axhline(0, color='red', ls='--')
+plt.title('Pearson Residuals vs Fitted Values')
+plt.xlabel('Fitted')
+plt.ylabel('Studentised Pearson Residual')
+plt.tight_layout()
+plt.savefig("diag_pearson_vs_fitted.png", dpi=300)
+plt.show()
+
 
 # ===============================
 # 9. Sector Effect Visualization
 # ===============================
 sector_effects = gamma_table.loc[[i for i in gamma_table.index if i.startswith('sector_')], 'Exp(Coeff)']
-plt.figure(figsize=(8, 5))
-sector_effects.sort_values().plot(kind='barh')
-plt.title('Policy Sector Effects on Capital Raised (Gamma, Exp(Coeff))')
-plt.xlabel('Multiplicative Effect')
+sector_effects = sector_effects.sort_values(ascending=False)
+
+plt.figure(figsize=(10, 6))
+sns.barplot(x=sector_effects.values, y=sector_effects.index, palette="viridis")
+plt.title('Policy Sector Effects on Capital Raised (Gamma, Exp(Coeff))', fontsize=16)
+plt.xlabel('Multiplicative Effect', fontsize=16)
+plt.ylabel('Policy Sector', fontsize=16)
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=16)
+plt.tight_layout()
 plt.show()
 
 # ===============================
