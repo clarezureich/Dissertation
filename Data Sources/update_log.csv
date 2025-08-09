@@ -1,46 +1,46 @@
-Sheet,Project ID,Column,Old Value,New Value
-Missing Capital Raised,INDIGO-POJ-0320,Capital Raised,,300000.0
-Missing Capital Raised,INDIGO-POJ-0284,Capital Raised,,139000.0
-Missing Capital Raised,INDIGO-POJ-0319,Capital Raised,,663000.0
-Missing Capital Raised,INDIGO-POJ-0122,Capital Raised,,694189.0
-Missing Capital Raised,INDIGO-POJ-0121,Capital Raised,,764783.0
-Missing Capital Raised,INDIGO-POJ-0123,Capital Raised,,295000.0
-Missing Capital Raised,INDIGO-POJ-0109,Capital Raised,,1261980.0
-Missing Capital Raised,INDIGO-POJ-0110,Capital Raised,,1300000.0
-Missing Capital Raised,INDIGO-POJ-0161,Capital Raised,,1400000.0
-Missing Capital Raised,INDIGO-POJ-0309,Capital Raised,,90000.0
-Missing Capital Raised,INDIGO-POJ-0118,Capital Raised,,724613.0
-Missing Capital Raised,INDIGO-POJ-0316,Capital Raised,,493372.0
-Missing Capital Raised,INDIGO-POJ-0164,Capital Raised,,2768640.0
-Missing Capital Raised,INDIGO-POJ-0142,Capital Raised,,300000.0
-Missing Max Outcome,INDIGO-POJ-0122,Max Outcome Payment,,1751164.0
-Missing Max Outcome,INDIGO-POJ-0123,Max Outcome Payment,,1002931.0
-Missing Max Outcome,INDIGO-POJ-0309,Max Outcome Payment,,180000.0
-Missing Max Outcome,INDIGO-POJ-0118,Max Outcome Payment,,674240.0
-Missing Max Outcome,INDIGO-POJ-0316,Max Outcome Payment,,736960.0
-Missing Service Users,INDIGO-POJ-0271,Service Users,,780.0
-Missing Service Users,INDIGO-POJ-0308,Service Users,,622.0
-Missing Service Users,INDIGO-POJ-0128,Service Users,,100.0
-Missing Service Users,INDIGO-POJ-0113,Service Users,,1250.0
-Missing Service Users,INDIGO-POJ-0172,Service Users,,50.0
-Missing Service Users,INDIGO-POJ-0127,Service Users,,350.0
-Missing Service Users,INDIGO-POJ-0112,Service Users,,13.0
-Missing Service Users,INDIGO-POJ-0117,Service Users,,384.0
-Missing Service Users,INDIGO-POJ-0162,Service Users,,500.0
-Missing Service Users,INDIGO-POJ-0161,Service Users,,240.0
-Missing Service Users,INDIGO-POJ-0160,Service Users,,200.0
-Missing Service Users,INDIGO-POJ-0318,Service Users,,200.0
-Missing Service Users,INDIGO-POJ-0164,Service Users,,1000.0
-Missing Service Users,INDIGO-POJ-0166,Service Users,,4040.0
-Missing Service Users,INDIGO-POJ-0165,Service Users,,1700.0
-Missing Service Users,INDIGO-POJ-0163,Service Users,,1300.0
-Missing Service Users,INDIGO-POJ-0150,Service Users,,21.0
-Missing Service Users,INDIGO-POJ-0149,Service Users,,415.0
-Missing Service Users,INDIGO-POJ-0148,Service Users,,415.0
-0 Investors,INDIGO-POJ-0320,Num Investors,0.0,1.0
-0 Investors,INDIGO-POJ-0271,Num Investors,0.0,1.0
-0 Investors,INDIGO-POJ-0282,Num Investors,0.0,1.0
-0 Investors,INDIGO-POJ-0319,Num Investors,0.0,1.0
-0 Investors,INDIGO-POJ-0122,Num Investors,0.0,1.0
-0 Investors,INDIGO-POJ-0109,Num Investors,0.0,1.0
-0 Investors,INDIGO-POJ-0110,Num Investors,0.0,1.0
+Sheet,Project ID,Column,Old Value,New Value,Source
+Missing Capital Raised,INDIGO-POJ-0320,Capital Raised,,300000,"(Better Society Capital, 2024) "
+Missing Capital Raised,INDIGO-POJ-0284,Capital Raised,,139000,"(Greater Manchester Combined Authority, 2023)"
+Missing Capital Raised,INDIGO-POJ-0319,Capital Raised,,663000,"(Greater Manchester Combined Authority, 2020)"
+Missing Capital Raised,INDIGO-POJ-0122,Capital Raised,,694189,"(Davey et_al., 2023)"
+Missing Capital Raised,INDIGO-POJ-0121,Capital Raised,,764783,"(Davey et_al., 2023)"
+Missing Capital Raised,INDIGO-POJ-0123,Capital Raised,,295000,"(Davey et_al., 2023)"
+Missing Capital Raised,INDIGO-POJ-0109,Capital Raised,,1261980,"(Gloucester City Council, 2022)"
+Missing Capital Raised,INDIGO-POJ-0110,Capital Raised,,1300000,"(Howard, 2017)"
+Missing Capital Raised,INDIGO-POJ-0161,Capital Raised,,1400000,"(Murphy, 2019)"
+Missing Capital Raised,INDIGO-POJ-0309,Capital Raised,,90000,"(The National Lottery Community Fund, 2019)"
+Missing Capital Raised,INDIGO-POJ-0118,Capital Raised,,724613,"(The National Lottery Community Fund, 2019)"
+Missing Capital Raised,INDIGO-POJ-0316,Capital Raised,,493372,"(The National Lottery Community Fund, 2019)"
+Missing Capital Raised,INDIGO-POJ-0164,Capital Raised,,2768640,"(Department for Education, 2023)"
+Missing Capital Raised,INDIGO-POJ-0142,Capital Raised,,300000,"(Marr, Jarvie, Deerin, & Payne, 2021)"
+Missing Max Outcome,INDIGO-POJ-0122,Max Outcome Payment,,1751164,"(Davey et_al., 2023)"
+Missing Max Outcome,INDIGO-POJ-0123,Max Outcome Payment,,1002931,"(Davey et_al., 2023)"
+Missing Max Outcome,INDIGO-POJ-0309,Max Outcome Payment,,180000,"(The National Lottery Community Fund, 2019)"
+Missing Max Outcome,INDIGO-POJ-0118,Max Outcome Payment,,674240,"(The National Lottery Community Fund, 2019)"
+Missing Max Outcome,INDIGO-POJ-0316,Max Outcome Payment,,736960,"(The National Lottery Community Fund, 2019)"
+Missing Service Users,INDIGO-POJ-0271,Service Users,,780,"(Better Society Capital, 2023)"
+Missing Service Users,INDIGO-POJ-0308,Service Users,,622,"(Social Finance, 2023)"
+Missing Service Users,INDIGO-POJ-0128,Service Users,,100,"(Stanworth, 2024)"
+Missing Service Users,INDIGO-POJ-0113,Service Users,,1250,"(Government Outcomes Lab, 2018)"
+Missing Service Users,INDIGO-POJ-0172,Service Users,,50,"(Nottinghamshire County Council, 2019)"
+Missing Service Users,INDIGO-POJ-0127,Service Users,,350,"(Stanworth, 2024)"
+Missing Service Users,INDIGO-POJ-0112,Service Users,,13,"(Ronicle, Stanworth, & Wooldridge, 2022)"
+Missing Service Users,INDIGO-POJ-0117,Service Users,,384,"(Government Outcomes Lab, 2021)"
+Missing Service Users,INDIGO-POJ-0162,Service Users,,500,"(Erskine, 2019)"
+Missing Service Users,INDIGO-POJ-0161,Service Users,,240,"(Murphy, 2019)"
+Missing Service Users,INDIGO-POJ-0160,Service Users,,200,"(Stanworth, 2024)"
+Missing Service Users,INDIGO-POJ-0318,Service Users,,200,"(Erskine, 2019)"
+Missing Service Users,INDIGO-POJ-0164,Service Users,,1000,"(Ronicle & Smith, 2020)"
+Missing Service Users,INDIGO-POJ-0166,Service Users,,4040,"(Ronicle & Smith, 2020)"
+Missing Service Users,INDIGO-POJ-0165,Service Users,,1700,"(Ronicle & Smith, 2020)"
+Missing Service Users,INDIGO-POJ-0163,Service Users,,1300,"(Ronicle & Smith, 2020)"
+Missing Service Users,INDIGO-POJ-0150,Service Users,,21,"(Bridges Outcome Partnerships, 2014)"
+Missing Service Users,INDIGO-POJ-0149,Service Users,,415,"(Mason et al., 2017)"
+Missing Service Users,INDIGO-POJ-0148,Service Users,,415,"(Mason et al., 2017)"
+0 Investors,INDIGO-POJ-0320,Num Investors,0,1,"(Bridges Outcome Partnerships, 2018)"
+0 Investors,INDIGO-POJ-0271,Num Investors,0,1,"(Better Society Capital, 2023)"
+0 Investors,INDIGO-POJ-0282,Num Investors,0,1,"(Marr, Jarvie, Deerin, & Payne, 2021)"
+0 Investors,INDIGO-POJ-0319,Num Investors,0,1,"(Greater Manchester Combined Authority, 2020)"
+0 Investors,INDIGO-POJ-0122,Num Investors,0,1,"(Davey et_al., 2023)"
+0 Investors,INDIGO-POJ-0109,Num Investors,0,1,"(Gloucester City Council, 2022)"
+0 Investors,INDIGO-POJ-0110,Num Investors,0,1,"(Howard, 2017)"
